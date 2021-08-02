@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<datatable xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		   xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<customers>
+		<customer>
+			<name>Bob Smith</name>
+			<creditcard>1234-5678-9012-3456</creditcard>
+			<password>Pa$$w0rd</password>
+		</customer>
+	</customers>
+</datatable>
