@@ -5,15 +5,10 @@ using System.Xml.Serialization;
 
 namespace XML_Protector
 {
-    [XmlRoot("Datatable"), Serializable]
-    public class Datatable
-    {
-        [XmlElement("Customers")]
-        public Customers Customers { get; set; }
-    }
+    [XmlRoot("customers")]
     public class Customers
     {
-        [XmlElement("Customers")]
-        public List<Customer> Customer { get; set; }
+        [XmlElement("customer")]
+        public List<Customer> customers { get; set; }
     }
 }

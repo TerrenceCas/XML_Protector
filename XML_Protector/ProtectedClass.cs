@@ -55,6 +55,19 @@ namespace XML_Protector
             }
             return Convert.ToBase64String(array);
         }
+        public static string GenerateSecretKey()
+        {
+            Random rnd = new Random();
+            string res = string.Empty;
+
+            for (int i = 1; i <= 32; i++)
+            {
+                res += (char)rnd.Next(48, 122);
+            }
+
+            return res;
+        }
+
         public static string GetHash(HashAlgorithm hashAlgorithm, string input)
         {
 

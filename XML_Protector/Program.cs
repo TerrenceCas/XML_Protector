@@ -14,50 +14,43 @@ namespace XML_Protector
     {
         static void Main(string[] args)
         {
-            //string xmlFile = "UnsecuredData.xml";
-            //FromXmlFile<List<Customers>>(xmlFile);
+            // string sk = ProtectedClass.GenerateSecretKey();
+            string sk = "iD_OSRlWb]wEax8c]Ejvd4dFEHNp0D]`";     // Generating Secret Key
 
-            //var listOfCustomers = new List<Customers>
-            //{
-            //new Customer { name = "", creditcard = "", 
-            //    password = ""}
-            //};
+            string UnsecuredData = "UnsecuredData.xml";
+            Customers UObj = FromXmlFile<Customers>(UnsecuredData);
 
-            XmlSerializer serializer = new XmlSerializer(typeof(Datatable));
-            FileStream loadStream = new FileStream("UnsecuredData.xml", FileMode.Open, FileAccess.Read);
-            Datatable loadedObject = (Datatable)serializer.Deserialize(loadStream);
-            loadStream.Close();
+            foreach (var c in UObj.customers)
+            {
+                WriteLine("Unsecures Data:");
+                WriteLine("Name: " + c.name +
+                            "\nCredit Card: " + c.creditcard +
+                            "\nPassword: " + c.password);
+                string password = ProtectedClass.SaltAndHash(c.password);
+                string eStr = ProtectedClass.EncryptString(sk, c.creditcard);
 
+                List<Customer> listOfCustomers = new List<Customer> {
+                    new Customer { name = c.name , creditcard = eStr, password = password}
+                };
 
+                Customers obj2 = new Customers {
+                    customers = listOfCustomers
+                };
+                
+                ToXmlFile("SecuredData.xml", obj2);
+            }
 
-            //string password = "Admin1234";
-            //string hashed = ProtectedClass.toMD5(password);
-            //string hashed2 = ProtectedClass.SaltAndHash(password);
-            //string hashed3 = string.Empty;
+            string SecuredData = "SecuredData.xml";
+            Customers SObj = FromXmlFile<Customers>(SecuredData);
 
-            //using (SHA256 sha256Hash = SHA256.Create())
-            //{
-            //    hashed3 = ProtectedClass.GetHash(sha256Hash, password);
-
-            //    WriteLine($"The SHA256 hash of {password} is: {hashed3}.");
-            //}
-
-            //string userPassword = "Admin1234";
-            //string hashedUserPassword = ProtectedClass.toMD5(userPassword);
-            //string hashedUserPassword2 = ProtectedClass.SaltAndHash(userPassword);
-
-            //WriteLine(hashed);
-            //WriteLine(hashed2);
-            //WriteLine(hashed3);
-
-            //if (hashed2.Equals(hashedUserPassword2))
-            //{
-            //    WriteLine("signed in!!!");
-            //}
-            //else
-            //{
-            //    WriteLine("Incorrect password!!!");
-            //}
+            foreach (var c in SObj.customers)
+            {
+                string dStr = ProtectedClass.DecryptString(sk, c.creditcard);
+                WriteLine("\nSecured Data:");
+                WriteLine("Name: "+ c.name +
+                            "\nCredit Card: " +dStr + 
+                            "\nPassword: " + c.password);
+            }
         }
 
         public static T FromXmlFile<T>(string file)

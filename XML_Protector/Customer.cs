@@ -8,13 +8,13 @@ namespace XML_Protector
     
     public class Customer
     {
-        [XmlAttribute("name")]
-        public string Name { get; set; }
+        [XmlElement("name")]
+        public string name { get; set; }
 
         [XmlElement("creditcard")]
-        public string Creditcard { get; set; }
+        public string creditcard { get; set; }
 
         [XmlElement("password")]
-        public string Password { get; set; }
+        public string password { get; set; }
     }
 }
